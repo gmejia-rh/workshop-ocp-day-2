@@ -1,0 +1,8 @@
+* xref:01-intro.adoc[1. Introduction]
+** xref:01-intro.adoc#prerequisite[Prerequisites]
+** xref:01-intro.adoc#minikube[Setup Minikube]
+** xref:01-intro.adoc#references[References]
+
+* xref:02-deploy.adoc[2. Deploy Service]
+** xref:02-deploy.adoc#package[Build Service]
+** xref:02-deploy.adoc#deploy[Deploy Dervice]

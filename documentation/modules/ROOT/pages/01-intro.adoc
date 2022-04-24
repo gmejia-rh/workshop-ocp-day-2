@@ -1,0 +1,21 @@
+= Introduction
+include::_attributes.adoc[]
+
+[#prerequisite]
+== Prerequisite CLI tools
+
+[#minikube]
+== Setup Kubernetes
+
+:profile: my_profile
+
+About the Spring Pet Clinic
+
+image::spring-petclinic-forks.png[]
+
+[#references]
+== References
+
+:tutorial-url: https://github.com/redhat-developer-demos/rhd-tutorial-common.git
+:folder: my_folder
+include::https://raw.githubusercontent.com/redhat-developer-demos/rhd-tutorial-common/master/download-sources.adoc[]
