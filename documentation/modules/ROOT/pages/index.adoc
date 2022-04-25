@@ -1,11 +1,14 @@
-= Welcome to Template Tutorial
+= Welcome to the workshop of Red Hat OpenShift for the USAL
 :page-layout: home
 :!sectids:
 
 [.text-center.strong]
-== Publish Services to Kubernetes
+== Deploy the iconic Spring Petclinic application
 
-A Kubernetes tutorial to show how you can deploy a Java service to a Kubernetes cluster as it was a child game.
+In this tutorial we will learn how to deploy the container-ready implementation of
+the iconic Spring Petclinic application. Specifically, this code is useful with
+the OpenShift Source-to-Image (s2i) technology and is part of the introductory
+material for [Developer Sandbox for Red Hat OpenShift](https://developers.redhat.com/developer-sandbox).
 
 [.tiles.browse]
 == Browse modules
