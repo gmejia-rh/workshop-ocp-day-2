@@ -2,20 +2,143 @@
 include::_attributes.adoc[]
 
 [#prerequisite]
-== Prerequisite CLI tools
+== Developer Sandbox for Red Hat OpenShift
 
-[#minikube]
-== Setup Kubernetes
+Get your *free* OpenShift cluster to run this tutorial. You can get free access
+to Developer Sandbox for Red Hat OpenShift at: https://developers.redhat.com/developer-sandbox
+
+[#aboutapp]
+== Spring Pet Clinic app
 
 :profile: my_profile
 
-About the Spring Pet Clinic
+About the Spring Pet Clinic app
 
 image::spring-petclinic-forks.png[]
+
+[#webconsole]
+== Red Hat OpenShift web console
+
+Make sure you are in the Developer perspective:
+
+image::3-switch-perspective.png[]
+
+[#deploymysql]
+== Deploy MySQL
+
+Create a new MySQL instance by clicking the `+Add` button and choosing the `Database` option:
+
+image::4-db.png
+
+This will display the Developer Catalog. Choose MySQL Ephemeral:
+
+image::5-mysql-ephemeral.png[]
+
+and Click `Instantiate Template`.
+
+Then fill the wizard with the following parameters. Note that your Namespace will
+not match the one shown here, and that *does not* matter. To summarize this screen
+capture, here is a list of the values you need to change:
+
+* MySQL Connection Username: **petclinic**
+* MySQL Connection Password: **petclinic**
+* MySQL root user Password: **petclinic**
+* MySQL Database Name: **petclinic**
+
+image::6-db-params.png[]
+
+Click the `Create` button.
+
+We are using the **Ephemeral** implementation because this a short-lived demo
+and we do not need to retain the data. In an Ephemeral instance, the data lives
+inside the pod, meaning the data is destroyed when the pod is destroyed.
+
+In a production system, you will most likely be using a permanent MySQL instance.
+This stores the data in a Persistent Volume (basically a virtual hard drive),
+meaning the MySQL pod can be destroyed and replaced with the data remaining intact.
+
+After a few minutes, and behind the scenes, an Ephemeral instance of a MySQL database
+container will be started. At this point, you have a database engine to be used
+by the application. Time to move on and create the application.
+
+[#deployapp]
+== Deploy Spring Pet Clinic app
+
+Click the `+Add` button and choose `Import from Git` type:
+
+Fill the git repo with the following value `https://github.com/gmejia-rh/spring-petclinic`.
+This is where things get interesting.
+
+When you enter the URL for a git repo, OpenShift will look at the files in the repo
+and attempt to discern the best way to build the application. There are three possible results:
+
+1. Build using the file "devfile.yaml" found in the source code
+1. Build using the file "dockerfile" found in the source code
+1. If neither of the above two files are found, build using a builder image and the built-in source-to-image (s2i) technology. This is the focus of this article.
+
+If, the case of this example (i.e. Spring Petclinic), OpenShift does **not** choose the builder image option, you will need to direct it to do so. Here's how to do that:
+
+First, click on the "Edit Import Strategy" link:
+
+image::edit_import_strategy.png[]
+
+Next, choose the Builder Image option and make sure the Java builder is selected:
+
+image::select_builder_image.png[]
+
+Near the bottom of the page, click the `Build Configuration` link:
+
+image::advanced_options.png[]
+
+Add the following environment variables, as displayed in the following screen capture:
+
+[.console-input]
+[source,bash, subs="+macros,+attributes"]
+----
+SPRING_PROFILES_ACTIVE=mysql
+MYSQL_URL=jdbc:mysql://mysql:3306/petclinic
+----
+
+image::9-app-env-vars.png[]
+
+Finally click the `Create` button and wait until the Build is done and the Pod
+is up and running (dark blue around the deployment bubble).
+In testing this using the Developer Sandbox for Red Hat OpenShift, this step took
+approximately six minutes.
+Please note: You *may* see error messages in the Sandbox. They are temporary while
+the application builds.
+
+Then push the Open URL button to view the Pet Clinic app:
+
+image::10-petclinic-url.png[]
+
+image::11-output-ui.png[]
+
+And if you visit the MySQL deployment's Terminal then you connect to the database
+to see the schema and data.
+
+[.console-input]
+[source,bash, subs="+macros,+attributes"]
+----
+mysql -u root -h mysql -p
+
+petclinic
+
+use petclinic;
+show tables;
+----
+
+image::12-mysql-terminal-1.png[]
+
+[.console-input]
+[source,bash, subs="+macros,+attributes"]
+----
+select * from owners;
+----
+
+image::13-mysql-terminal-2.png[]
 
 [#references]
 == References
 
 :tutorial-url: https://github.com/redhat-developer-demos/rhd-tutorial-common.git
-:folder: my_folder
-include::https://raw.githubusercontent.com/redhat-developer-demos/rhd-tutorial-common/master/download-sources.adoc[]

@@ -16,7 +16,11 @@ material for [Developer Sandbox for Red Hat OpenShift](https://developers.redhat
 [.tile]
 .xref:01-intro.adoc[Get Started]
 * xref:01-intro.adoc#prerequisite[Developer Sandbox for Red Hat OpenShift]
-* xref:01-intro.adoc#prerequisite[Minikube]
+* xref:01-intro.adoc#aboutapp[Spring Pet Clinic app]
+* xref:01-intro.adoc#webconsole[Red Hat OpenShift web console]
+* xref:01-intro.adoc#deploymysql[Deploy MySQL]
+* xref:01-intro.adoc#deployapp[Deploy Spring Pet Clinic app]
+
 
 [.tile]
 .xref:02-deploy.adoc[Deploying]
