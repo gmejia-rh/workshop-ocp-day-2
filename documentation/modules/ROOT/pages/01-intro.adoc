@@ -21,7 +21,7 @@ image::spring-petclinic-forks.png[]
 
 Make sure you are in the Developer perspective:
 
-image::3-switch-perspective.png[]
+image::3-switch-perspective.png
 
 [#deploymysql]
 == Deploy MySQL
