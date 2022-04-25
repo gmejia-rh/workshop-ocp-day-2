@@ -2,9 +2,9 @@ runtime:
   cache_dir: ./.cache/antora
 
 site:
-  title: Template Tutorial
-  url: https://redhat-scholars.github.io/course-template
-  start_page: template-tutorial::index.adoc
+  title: Workshop Red Hat Openshift - Day 2
+  url: https://gmejia-rh.github.io/workshop-ocp-day-2
+  start_page: tutorial::index.adoc
 
 content:
   sources:
