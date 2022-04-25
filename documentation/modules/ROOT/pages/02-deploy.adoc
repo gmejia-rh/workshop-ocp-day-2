@@ -10,14 +10,7 @@ The code:
 [.console-input]
 [source, java,subs="+macros,+attributes"]
 ----
-public class Main {
 
-
-    } 
-
-}
-
-./mvnw compile
 ----
 
 [#package]
