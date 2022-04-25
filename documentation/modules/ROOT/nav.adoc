@@ -1,8 +1,6 @@
 * xref:01-intro.adoc[1. Introduction]
-** xref:01-intro.adoc#prerequisite[Prerequisites]
-** xref:01-intro.adoc#minikube[Setup Minikube]
-** xref:01-intro.adoc#references[References]
-
-* xref:02-deploy.adoc[2. Deploy Service]
-** xref:02-deploy.adoc#package[Build Service]
-** xref:02-deploy.adoc#deploy[Deploy Dervice]
+** xref:01-intro.adoc#prerequisite[Developer Sandbox for Red Hat OpenShift]
+** xref:01-intro.adoc#aboutapp[Spring Pet Clinic app]
+** xref:01-intro.adoc#webconsole[Red Hat OpenShift web console]
+** xref:01-intro.adoc#deploymysql[Deploy MySQL]
+** xref:01-intro.adoc#deployapp[Deploy Spring Pet Clinic app]
