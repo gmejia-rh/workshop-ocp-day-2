@@ -102,16 +102,19 @@
 <article class="doc">
 <h1 class="page">Introduction</h1>
 <div class="sect1">
-<h2 id="prerequisite"><a class="anchor" href="#prerequisite"></a>Prerequisite CLI tools</h2>
+<h2 id="prerequisite"><a class="anchor" href="#prerequisite"></a>Developer Sandbox for Red Hat OpenShift</h2>
 <div class="sectionbody">
-
+<div class="paragraph">
+<p>Get your <strong>free</strong> OpenShift cluster to run this tutorial. You can get free access
+to Developer Sandbox for Red Hat OpenShift at: <a href="https://developers.redhat.com/developer-sandbox" class="bare">https://developers.redhat.com/developer-sandbox</a></p>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="minikube"><a class="anchor" href="#minikube"></a>Setup Kubernetes</h2>
+<h2 id="aboutapp"><a class="anchor" href="#aboutapp"></a>Spring Pet Clinic app</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>About the Spring Pet Clinic</p>
+<p>About the Spring Pet Clinic app</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -121,26 +124,208 @@
 </div>
 </div>
 <div class="sect1">
-<h2 id="references"><a class="anchor" href="#references"></a>References</h2>
+<h2 id="webconsole"><a class="anchor" href="#webconsole"></a>Red Hat OpenShift web console</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Before we start setting up the environment, let’s clone the tutorial sources and set the <code>TUTORIAL_HOME</code> environment variable to point to the root directory of the tutorial:</p>
+<p>Make sure you are in the Developer perspective:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/3-switch-perspective.png" alt="3 switch perspective">
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="deploymysql"><a class="anchor" href="#deploymysql"></a>Deploy MySQL</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Create a new MySQL instance by clicking the <code>+Add</code> button and choosing the <code>Database</code> option:</p>
+</div>
+<div class="paragraph">
+<p>image::4-db.png</p>
+</div>
+<div class="paragraph">
+<p>This will display the Developer Catalog. Choose MySQL Ephemeral:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/5-mysql-ephemeral.png" alt="5 mysql ephemeral">
+</div>
+</div>
+<div class="paragraph">
+<p>and Click <code>Instantiate Template</code>.</p>
+</div>
+<div class="paragraph">
+<p>Then fill the wizard with the following parameters. Note that your Namespace will
+not match the one shown here, and that <strong>does not</strong> matter. To summarize this screen
+capture, here is a list of the values you need to change:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>MySQL Connection Username: <strong>petclinic</strong></p>
+</li>
+<li>
+<p>MySQL Connection Password: <strong>petclinic</strong></p>
+</li>
+<li>
+<p>MySQL root user Password: <strong>petclinic</strong></p>
+</li>
+<li>
+<p>MySQL Database Name: <strong>petclinic</strong></p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/6-db-params.png" alt="6 db params">
+</div>
+</div>
+<div class="paragraph">
+<p>Click the <code>Create</code> button.</p>
+</div>
+<div class="paragraph">
+<p>We are using the <strong>Ephemeral</strong> implementation because this a short-lived demo
+and we do not need to retain the data. In an Ephemeral instance, the data lives
+inside the pod, meaning the data is destroyed when the pod is destroyed.</p>
+</div>
+<div class="paragraph">
+<p>In a production system, you will most likely be using a permanent MySQL instance.
+This stores the data in a Persistent Volume (basically a virtual hard drive),
+meaning the MySQL pod can be destroyed and replaced with the data remaining intact.</p>
+</div>
+<div class="paragraph">
+<p>After a few minutes, and behind the scenes, an Ephemeral instance of a MySQL database
+container will be started. At this point, you have a database engine to be used
+by the application. Time to move on and create the application.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="deployapp"><a class="anchor" href="#deployapp"></a>Deploy Spring Pet Clinic app</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Click the <code>+Add</code> button and choose <code>Import from Git</code> type:</p>
+</div>
+<div class="paragraph">
+<p>Fill the git repo with the following value <code><a href="https://github.com/gmejia-rh/spring-petclinic" class="bare">https://github.com/gmejia-rh/spring-petclinic</a></code>.
+This is where things get interesting.</p>
+</div>
+<div class="paragraph">
+<p>When you enter the URL for a git repo, OpenShift will look at the files in the repo
+and attempt to discern the best way to build the application. There are three possible results:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Build using the file "devfile.yaml" found in the source code</p>
+</li>
+<li>
+<p>Build using the file "dockerfile" found in the source code</p>
+</li>
+<li>
+<p>If neither of the above two files are found, build using a builder image and the built-in source-to-image (s2i) technology. This is the focus of this article.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>If, the case of this example (i.e. Spring Petclinic), OpenShift does <strong>not</strong> choose the builder image option, you will need to direct it to do so. Here&#8217;s how to do that:</p>
+</div>
+<div class="paragraph">
+<p>First, click on the "Edit Import Strategy" link:</p>
+</div>
+<div class="imageblock unresolved">
+<div class="content">
+<img src="edit_import_strategy.png" alt="edit import strategy">
+</div>
+</div>
+<div class="paragraph">
+<p>Next, choose the Builder Image option and make sure the Java builder is selected:</p>
+</div>
+<div class="imageblock unresolved">
+<div class="content">
+<img src="select_builder_image.png" alt="select builder image">
+</div>
+</div>
+<div class="paragraph">
+<p>Near the bottom of the page, click the <code>Build Configuration</code> link:</p>
+</div>
+<div class="imageblock unresolved">
+<div class="content">
+<img src="advanced_options.png" alt="advanced options">
+</div>
+</div>
+<div class="paragraph">
+<p>Add the following environment variables, as displayed in the following screen capture:</p>
 </div>
 <div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">git clone <a href="https://github.com/redhat-developer-demos/rhd-tutorial-common.git" class="bare">https://github.com/redhat-developer-demos/rhd-tutorial-common.git</a> my_folder</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">SPRING_PROFILES_ACTIVE=mysql
+MYSQL_URL=jdbc:mysql://mysql:3306/petclinic</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/9-app-env-vars.png" alt="9 app env vars">
+</div>
+</div>
+<div class="paragraph">
+<p>Finally click the <code>Create</code> button and wait until the Build is done and the Pod
+is up and running (dark blue around the deployment bubble).
+In testing this using the Developer Sandbox for Red Hat OpenShift, this step took
+approximately six minutes.
+Please note: You <strong>may</strong> see error messages in the Sandbox. They are temporary while
+the application builds.</p>
+</div>
+<div class="paragraph">
+<p>Then push the Open URL button to view the Pet Clinic app:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/10-petclinic-url.png" alt="10 petclinic url">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/11-output-ui.png" alt="11 output ui">
+</div>
+</div>
+<div class="paragraph">
+<p>And if you visit the MySQL deployment&#8217;s Terminal then you connect to the database
+to see the schema and data.</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">mysql -u root -h mysql -p
+
+petclinic
+
+use petclinic;
+show tables;</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/12-mysql-terminal-1.png" alt="12 mysql terminal 1">
 </div>
 </div>
 <div class="listingblock console-input">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">export TUTORIAL_HOME="$(pwd)/my_folder"</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">select * from owners;</code></pre>
 </div>
 </div>
-<div class="listingblock console-input">
+<div class="imageblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cd $TUTORIAL_HOME</code></pre>
+<img src="_images/13-mysql-terminal-2.png" alt="13 mysql terminal 2">
 </div>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="references"><a class="anchor" href="#references"></a>References</h2>
+<div class="sectionbody">
+
 </div>
 </div>
 <nav class="pagination">
