@@ -1,5 +1,5 @@
 name: tutorial
-title: Template Tutorial
+title: Workshop Red Hat Openshift - Day 2
 version: master
 nav:
   - modules/ROOT/nav.adoc
